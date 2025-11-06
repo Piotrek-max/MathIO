@@ -1,1 +1,7 @@
 .idea
+
+.venv
+
+.env
+
+static/plots
