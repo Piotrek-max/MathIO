@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Math IO – Plot data{% endblock %}
+
+{% block content %}
+  <div class="container" style="padding: 24px;">
+    <h2>Wgraj plik .txt i wygeneruj wykres</h2>
+    <p>Format: jedna kolumna (y) lub dwie kolumny (x y). Separatory: spacje / taby / przecinki.</p>
+
+    <form action="/plot" method="post" enctype="multipart/form-data" style="margin: 16px 0;">
+      <input type="file" name="file" accept=".txt" required>
+      <button type="submit">Generuj wykres</button>
+    </form>
+
+    {% if error %}
+      <div style="color:#b00020; margin: 12px 0;">{{ error }}</div>
+    {% endif %}
+
+    {% if img_url %}
+      <div style="margin-top: 20px;">
+        <h3>Wynik</h3>
+        <img src="{{ img_url }}" alt="Wykres" style="max-width: 900px; width: 100%; height: auto; border: 1px solid #ddd; border-radius: 8px;">
+        <p><a href="{{ img_url }}" download>Pobierz PNG</a></p>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
