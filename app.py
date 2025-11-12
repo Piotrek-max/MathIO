@@ -23,9 +23,6 @@ async def read_root(request: Request):
 async def get_api(request: Request):
     return templates.TemplateResponse("matmul.html", {"request": request})
 
-@app.get("/login", response_class=HTMLResponse)
-async def get_api(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
 
 @app.post("/matmul", response_class=HTMLResponse)
 async def submit_matrices(request: Request, inputText1: str = Form(...), inputText2: str = Form(...)):
