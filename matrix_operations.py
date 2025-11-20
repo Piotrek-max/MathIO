@@ -44,3 +44,84 @@ def multiply_matrix_end(text1, text2):
         return 'Matrix is not correct'
     result = multiply_matrix(matrix1, matrix2)
     return result
+
+def determinant(matrix: list) -> float:
+    """Rekurencyjne liczenie wyznacznika macierzy."""
+    n = len(matrix)
+
+    # 1×1
+    if n == 1:
+        return matrix[0][0]
+
+    # 2×2
+    if n == 2:
+        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+
+    # większe macierze — rozwinięcie Laplace’a
+    det = 0
+    for c in range(n):
+        # minor
+        sub = [row[:c] + row[c+1:] for row in matrix[1:]]
+        det += ((-1) ** c) * matrix[0][c] * determinant(sub)
+    return det
+
+
+def matrix_of_minors(matrix: list) -> list:
+    """Macierz minorów."""
+    n = len(matrix)
+    minors = []
+
+    for i in range(n):
+        minors.append([])
+        for j in range(n):
+            # macierz bez wiersza i i kolumny j
+            sub = [row[:j] + row[j+1:] for k, row in enumerate(matrix) if k != i]
+            minors[i].append(determinant(sub))
+    return minors
+
+
+def cofactor_matrix(matrix: list) -> list:
+    """Macierz kofaktorów."""
+    n = len(matrix)
+    minors = matrix_of_minors(matrix)
+
+    for i in range(n):
+        for j in range(n):
+            minors[i][j] *= (-1) ** (i + j)
+
+    return minors
+
+
+def transpose(matrix: list) -> list:
+    """Transpozycja macierzy."""
+    return [list(row) for row in zip(*matrix)]
+
+
+def inverse_matrix(matrix: list) -> list | str:
+    """Macierz odwrotna A⁻¹ = 1/det(A) * adj(A)."""
+    # sprawdzenie kwadratowej
+    n = len(matrix)
+    if any(len(row) != n for row in matrix):
+        return "Matrix is not square"
+
+    det = determinant(matrix)
+    if det == 0:
+        return "Matrix is singular (det = 0)"
+
+    cof = cofactor_matrix(matrix)
+    adj = transpose(cof)
+
+    inv = []
+    for row in adj:
+        inv.append([x / det for x in row])
+
+    return inv
+
+
+def inverse_matrix_end(text):
+    matrix = transfrom_text_to_matrix(text)
+    if matrix == 'Matrix is not correct':
+        return 'Matrix is not correct'
+
+    result = inverse_matrix(matrix)
+    return result
