@@ -10,6 +10,7 @@ dependencies = [
     "matplotlib>=3.10.8",
     "pydantic>=2.12.5",
     "python-dotenv>=1.2.1",
+    "redis[hiredis]>=7.1.0",
     "scikit-learn>=1.8.0",
     "streamlit>=1.53.1",
     "uvicorn>=0.40.0",

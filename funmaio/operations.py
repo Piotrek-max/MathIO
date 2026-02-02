@@ -1,4 +1,4 @@
-import numpy as np
+﻿import numpy as np
 
 
 def multiply(a: np.ndarray, b: np.ndarray) -> np.ndarray | str:
@@ -64,4 +64,5 @@ def eigenvalues(a: np.ndarray) -> np.ndarray | str:
 
 def rank(a: np.ndarray) -> int:
     return np.linalg.matrix_rank(a)
+
 

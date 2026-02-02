@@ -1,4 +1,4 @@
-# MathIO - Project Structure
+﻿# MathIO - Project Structure
 
 ## 📁 Folder Structure
 
@@ -91,5 +91,6 @@ elif option == "New Tab":
 - Display configuration
 - Calculation settings
 - Data export
+
 
 

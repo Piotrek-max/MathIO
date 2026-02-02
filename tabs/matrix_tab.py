@@ -1,4 +1,4 @@
-import streamlit as st
+﻿import streamlit as st
 from funmaio.parser import text_to_numpy, numpy_to_text
 from funmaio.operations import multiply, inverse, add, subtract, transpose, determinant, eigenvalues, rank
 import json
@@ -6,7 +6,7 @@ import json
 
 def export_result(result, format_type, operation_name):
     if format_type == "CSV":
-        csv_data = "\n".join([",".join(map(str, row)) for row in result])
+        csv_data = "\n".join([";".join(map(str, row)) for row in result])
         return csv_data, f"{operation_name}_result.csv", "text/csv"
     elif format_type == "JSON":
         json_data = json.dumps(result.tolist(), indent=2)
@@ -274,4 +274,6 @@ def show():
         - **Eigenvalues**: λ (square matrix only)
         - **Matrix Rank**: rank(A) (any matrix)
         """)
+
+
 

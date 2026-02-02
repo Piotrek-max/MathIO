@@ -1,4 +1,4 @@
-import numpy as np
+﻿import numpy as np
 
 
 def text_to_numpy(text: str) -> np.ndarray | str:
@@ -19,4 +19,5 @@ def numpy_to_text(matrix: np.ndarray, decimals: int = 4) -> str:
         formatted_row = ' '.join([f"{num:10.{decimals}f}" for num in row])
         result.append(formatted_row)
     return '\n'.join(result)
+
 

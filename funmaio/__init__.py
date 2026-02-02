@@ -1,4 +1,4 @@
-from .parser import text_to_numpy, numpy_to_text
+﻿from .parser import text_to_numpy, numpy_to_text
 from .operations import (
     multiply,
     inverse,
@@ -22,4 +22,5 @@ __all__ = [
     'eigenvalues',
     'rank'
 ]
+
 

@@ -1,4 +1,4 @@
-# FunMaIO - Matrix Operations Library
+﻿# FunMaIO - Matrix Operations Library
 
 A simple and efficient library for matrix operations using NumPy.
 
@@ -68,5 +68,6 @@ b = text_to_numpy(text_b)
 result = multiply(a, b)
 print(numpy_to_text(result, decimals=2))
 ```
+
 
 
