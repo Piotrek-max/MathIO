@@ -65,4 +65,3 @@ def eigenvalues(a: np.ndarray) -> np.ndarray | str:
 def rank(a: np.ndarray) -> int:
     return np.linalg.matrix_rank(a)
 
-

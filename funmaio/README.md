@@ -70,4 +70,3 @@ print(numpy_to_text(result, decimals=2))
 ```
 
 
-

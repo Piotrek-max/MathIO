@@ -20,4 +20,3 @@ def numpy_to_text(matrix: np.ndarray, decimals: int = 4) -> str:
         result.append(formatted_row)
     return '\n'.join(result)
 
-

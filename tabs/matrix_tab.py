@@ -6,7 +6,7 @@ import json
 
 def export_result(result, format_type, operation_name):
     if format_type == "CSV":
-        csv_data = "\n".join([";".join(map(str, row)) for row in result])
+        csv_data = "\n".join([",".join(map(str, row)) for row in result])
         return csv_data, f"{operation_name}_result.csv", "text/csv"
     elif format_type == "JSON":
         json_data = json.dumps(result.tolist(), indent=2)
@@ -274,6 +274,4 @@ def show():
         - **Eigenvalues**: λ (square matrix only)
         - **Matrix Rank**: rank(A) (any matrix)
         """)
-
-
 
