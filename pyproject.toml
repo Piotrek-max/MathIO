@@ -1,6 +1,6 @@
 [project]
 name = "mathio"
-version = "0.1.0"
+version = "0.2.0"
 description = "Interactive Fast-API platform that provides a simple web interface and API for performing operations on data."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -11,5 +11,6 @@ dependencies = [
     "pydantic>=2.12.5",
     "python-dotenv>=1.2.1",
     "scikit-learn>=1.8.0",
+    "streamlit>=1.53.1",
     "uvicorn>=0.40.0",
 ]

@@ -1,59 +1,70 @@
-from fastapi import FastAPI, Request, Form, Response, UploadFile, File, HTTPException
-from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
-import os
-
-import matrix_operations
-from plotting_functions.plot_from_txt import parse_xy_from_text, save_plot_png
-
-app = FastAPI()
-
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
-
-PLOTS_DIR = os.path.join("static", "plots")
-os.makedirs(PLOTS_DIR, exist_ok=True)
-
-@app.get("/", response_class=HTMLResponse)
-async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request, "message": "To jest wiadomość dynamiczna!"})
-
-@app.get("/matmul", response_class=HTMLResponse)
-async def get_api(request: Request):
-    return templates.TemplateResponse("matmul.html", {"request": request})
+import streamlit as st
+from pathlib import Path
+from tabs import matrix_tab, ml_tab, settings_tab
+import json
 
 
-@app.post("/matmul", response_class=HTMLResponse)
-async def submit_matrices(request: Request, inputText1: str = Form(...), inputText2: str = Form(...)):
-    result = matrix_operations.multiply_matrix_end(inputText1.strip(), inputText2.strip())
-    if result != 'Matrix multiplication is not possible':
-        result_text = '\n'.join([' '.join(map(str, row)) for row in result])
+def load_settings():
+    settings_file = Path("settings.json")
+    if settings_file.exists():
+        with open(settings_file, 'r') as f:
+            return json.load(f)
+    return {
+        'decimal_places': 2,
+        'theme': 'dark',
+        'timeout': 30,
+        'export_formats': ['CSV', 'JSON', 'TXT']
+    }
+
+
+st.set_page_config(
+    page_title="MathIO",
+    page_icon="static/favico.ico",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+if 'settings_loaded' not in st.session_state:
+    settings = load_settings()
+    st.session_state.update(settings)
+    st.session_state['settings_loaded'] = True
+
+theme = st.session_state.get('theme', 'dark')
+
+def load_logo():
+    logo_path = Path("static/logo_color.png")
+    if logo_path.exists():
+        return str(logo_path)
+    return None
+
+
+st.title("MathIO - Mathematical Operations & ML")
+st.markdown("---")
+
+with st.sidebar:
+    logo = load_logo()
+    if logo:
+        st.image(logo, width=180)
     else:
-        result_text = 'Matrix multiplication is not possible'
-    return templates.TemplateResponse("matmul.html", {"request": request,"textA":inputText1, "textB":inputText2, "resultText": result_text})
+        st.warning("Logo not found")
 
-@app.get("/api/json", response_class=JSONResponse)
-async def get_json():
-    data = {"message": "This is a JSON response", "status": "success"}
-    return JSONResponse(content=data)
+    st.markdown("---")
+
+    st.header("📋 Menu")
+    st.write("Select tab:")
+
+    option = st.selectbox(
+        "Options",
+        ["Matrix Operations", "ML Predictions", "Settings"],
+        label_visibility="collapsed"
+    )
+
+if option == "Matrix Operations":
+    matrix_tab.show()
+elif option == "ML Predictions":
+    ml_tab.show()
+elif option == "Settings":
+    settings_tab.show()
 
 
-@app.get("/plot", response_class=HTMLResponse)
-async def plot_form(request: Request):
-    return templates.TemplateResponse("plot.html", {"request": request, "img_url": None, "error": None})
 
-@app.post("/plot", response_class=HTMLResponse)
-async def plot_upload(request: Request, file: UploadFile = File(...)):
-    try:
-        if not file.filename.lower().endswith(".txt"):
-            raise ValueError("Wyślij plik z rozszerzeniem .txt.")
-        raw = await file.read()
-        x, y, title = parse_xy_from_text(raw, file.filename)
-        png_name = save_plot_png(x, y, title, PLOTS_DIR)
-        img_url = f"/static/plots/{png_name}"
-        return templates.TemplateResponse("plot.html", {"request": request, "img_url": img_url, "error": None})
-    except ValueError as e:
-        return templates.TemplateResponse("plot.html", {"request": request, "img_url": None, "error": str(e)})
-    except Exception:
-        return templates.TemplateResponse("plot.html", {"request": request, "img_url": None, "error": "Nieoczekiwany błąd podczas generowania wykresu."})

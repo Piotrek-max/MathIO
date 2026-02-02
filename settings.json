@@ -1,0 +1,10 @@
+{
+  "decimal_places": 2,
+  "theme": "dark",
+  "timeout": 30,
+  "export_formats": [
+    "CSV",
+    "JSON",
+    "TXT"
+  ]
+}
