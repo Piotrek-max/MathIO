@@ -54,7 +54,6 @@ def show():
 
     st.write("**Current tabs:**")
 
-    # Display current tabs with delete option
     tabs_to_delete = []
     for tab_name, tab_file in list(functionalities.items()):
         col1, col2 = st.columns([4, 1])
@@ -64,7 +63,6 @@ def show():
             if st.button("🗑️", key=f"delete_tab_{tab_name}"):
                 tabs_to_delete.append(tab_name)
 
-    # Delete selected tabs
     for tab_name in tabs_to_delete:
         del functionalities[tab_name]
         st.session_state['functionalities'] = functionalities

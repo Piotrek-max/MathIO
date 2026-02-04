@@ -64,12 +64,10 @@ with st.sidebar:
 
     st.markdown("---")
 
-    # Settings button in sidebar
     if st.button("⚙️ Settings", use_container_width=True):
         st.session_state['show_settings'] = True
         st.rerun()
 
-# Show Settings page or selected tab
 if st.session_state.get('show_settings', False):
     from tabs import settings_tab
     st.header("Settings")

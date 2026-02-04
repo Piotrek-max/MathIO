@@ -8,7 +8,8 @@
   ],
   "functionalities": {
     "Matrix Operations": "matrix_tab.py",
-    "ML Prediction": "ml_tab.py",
-    "Settings": "settings_tab.py"
+    "Statistical ML": "ml_tab.py",
+    "Settings": "settings_tab.py",
+    "Models Management": "mm_tab.py"
   }
 }

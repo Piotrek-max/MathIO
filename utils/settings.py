@@ -30,7 +30,12 @@ DEFAULT_SETTINGS = {
     'export_formats': ['CSV', 'JSON', 'TXT'],
     'functionalities': {
         'Matrix Operations': 'matrix_tab.py',
-        'ML Prediction': 'ml_tab.py',
-        'Settings': 'settings_tab.py'
+        'Statistical ML': 'ml_tab.py',
+        'Settings': 'settings_tab.py',
+        'Models Management': 'mm_tab.py'
+        # TODO Features
+        # 'File dataset preparation': 'ml_tab.py',
+        # 'Data view': 'dv_tab.py',
+
     }
 }
