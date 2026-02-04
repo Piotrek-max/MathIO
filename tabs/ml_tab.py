@@ -50,20 +50,3 @@ def show():
     if uploaded_file is not None:
         st.success("Model loaded!")
 
-    with st.expander("ℹ️ About ML Models"):
-        st.write("""
-        **Available models:**
-        
-        1. **Linear Regression**
-           - Predict continuous values
-           - Requires numerical data
-        
-        2. **Classification**
-           - Assign to categories
-           - Multi-class support
-        
-        3. **Clustering**
-           - Group similar data
-           - Unsupervised learning
-        """)
-
