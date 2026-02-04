@@ -253,25 +253,3 @@ def show():
                 st.subheader("Result:")
                 st.metric("rank(A)", result)
 
-    with st.expander("ℹ️ How to use"):
-        st.write("""
-        **Matrix input format:**
-        - Each row on a new line
-        - Values separated by spaces or commas
-        - Example:
-          ```
-          1 2 3
-          4 5 6
-          ```
-        
-        **Available operations:**
-        - **Matrix Multiplication**: A × B (columns in A = rows in B)
-        - **Matrix Addition**: A + B (same dimensions required)
-        - **Matrix Subtraction**: A - B (same dimensions required)
-        - **Inverse Matrix**: A⁻¹ (square matrix, determinant ≠ 0)
-        - **Transpose**: Aᵀ (swap rows and columns)
-        - **Determinant**: det(A) (square matrix only)
-        - **Eigenvalues**: λ (square matrix only)
-        - **Matrix Rank**: rank(A) (any matrix)
-        """)
-
