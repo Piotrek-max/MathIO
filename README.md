@@ -1,5 +1,5 @@
-# Math-IO![logo_color.png](static%2Flogo_color.png)
-MathIO is an interactive streamlit platform that connects mathematics with artificial intelligence.  
+# Math IO![logo_color.png](assets%2Flogo_color.png)
+**Math IO** is an interactive streamlit platform that connects mathematics with artificial intelligence.  
 It provides a simple web interface and API for performing operations on data, matrices, and images —  
 powered by algorithms and models implemented in the [**Ai Box**](https://github.com/Piotrek-max/AIbox) project.
 

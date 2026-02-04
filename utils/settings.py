@@ -9,7 +9,6 @@ def load_settings():
             return json.load(f)
     return {
         'decimal_places': 2,
-        'theme': 'dark',
         'timeout': 30,
         'export_formats': ['CSV', 'JSON', 'TXT'],
         'functionalities': {
@@ -18,3 +17,20 @@ def load_settings():
             'Settings': 'settings_tab.py'
         }
     }
+
+
+def save_settings(settings):
+    with open("settings.json", 'w') as f:
+        json.dump(settings, f, indent=2)
+
+
+DEFAULT_SETTINGS = {
+    'decimal_places': 2,
+    'timeout': 30,
+    'export_formats': ['CSV', 'JSON', 'TXT'],
+    'functionalities': {
+        'Matrix Operations': 'matrix_tab.py',
+        'ML Prediction': 'ml_tab.py',
+        'Settings': 'settings_tab.py'
+    }
+}

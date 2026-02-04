@@ -1,11 +1,6 @@
 ﻿import streamlit as st
 import json
-from utils.settings import load_settings
-
-
-def save_settings(settings):
-    with open("settings.json", 'w') as f:
-        json.dump(settings, f, indent=2)
+from utils.settings import load_settings, save_settings, DEFAULT_SETTINGS
 
 
 def show():
@@ -15,17 +10,6 @@ def show():
         settings = load_settings()
         st.session_state.update(settings)
         st.session_state['settings_loaded'] = True
-
-    st.markdown("---")
-
-    st.subheader("🎨 Display")
-
-    theme = st.selectbox(
-        "Display theme:",
-        ["Light", "Dark", "Auto"],
-        index=["Light", "Dark", "Auto"].index(st.session_state.get('theme', 'Dark').title())
-    )
-    st.session_state['theme'] = theme.lower()
 
     st.markdown("---")
 
@@ -58,7 +42,7 @@ def show():
     export_format = st.multiselect(
         "Available export formats:",
         ["CSV", "JSON", "TXT"],
-        default=st.session_state.get('export_formats', ["CSV", "JSON", "TXT"])
+        default=st.session_state.get('export_formats')
     )
     st.session_state['export_formats'] = export_format
 
@@ -66,11 +50,7 @@ def show():
 
     st.subheader("📑 Tabs Management")
 
-    functionalities = st.session_state.get('functionalities', {
-        'Matrix Operations': 'matrix_tab.py',
-        'ML Prediction': 'ml_tab.py',
-        'Settings': 'settings_tab.py'
-    })
+    functionalities = st.session_state.get('functionalities')
 
     st.write("**Current tabs:**")
 
@@ -129,13 +109,12 @@ def show():
 
     st.markdown("---")
 
-    col1, col2, col3 = st.columns([1, 1, 1])
+    col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
 
     with col1:
-        if st.button("💾 Save Settings to file", type="primary"):
+        if st.button("💾 Save Settings", type="primary"):
             settings = {
                 'decimal_places': st.session_state.get('decimal_places', 2),
-                'theme': st.session_state.get('theme', 'dark'),
                 'timeout': st.session_state.get('timeout', 30),
                 'export_formats': st.session_state.get('export_formats', ['CSV', 'JSON', 'TXT']),
                 'functionalities': st.session_state.get('functionalities', {
@@ -149,17 +128,7 @@ def show():
 
     with col2:
         if st.button("🔄 Restore Defaults"):
-            defaults = {
-                'decimal_places': 2,
-                'theme': 'dark',
-                'timeout': 30,
-                'export_formats': ['CSV', 'JSON', 'TXT'],
-                'functionalities': {
-                    'Matrix Operations': 'matrix_tab.py',
-                    'ML Prediction': 'ml_tab.py',
-                    'Settings': 'settings_tab.py'
-                }
-            }
+            defaults = DEFAULT_SETTINGS
             st.session_state.update(defaults)
             save_settings(defaults)
             st.rerun()
@@ -168,7 +137,6 @@ def show():
         if st.button("📤 Export Configuration"):
             settings = {
                 'decimal_places': st.session_state.get('decimal_places', 2),
-                'theme': st.session_state.get('theme', 'dark'),
                 'timeout': st.session_state.get('timeout', 30),
                 'export_formats': st.session_state.get('export_formats', ['CSV', 'JSON', 'TXT']),
                 'functionalities': st.session_state.get('functionalities', {
@@ -185,4 +153,24 @@ def show():
                 mime="application/json"
             )
 
-    st.markdown("---")
+    with col4:
+        if st.button("📥 Import Settings"):
+            st.session_state['show_import'] = True
+
+        if st.session_state.get('show_import', False):
+            uploaded_config = st.file_uploader(
+                "Upload config JSON:",
+                type=['json'],
+                key="import_settings"
+            )
+            if uploaded_config:
+                try:
+                    imported_settings = json.load(uploaded_config)
+                    st.session_state.update(imported_settings)
+                    save_settings(imported_settings)
+                    st.session_state['show_import'] = False
+                    st.success("Settings imported!")
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Import failed: {e}")
+

@@ -16,8 +16,6 @@ if 'settings_loaded' not in st.session_state:
     st.session_state.update(settings)
     st.session_state['settings_loaded'] = True
 
-theme = st.session_state.get('theme', 'dark')
-
 
 st.title("MathIO - Mathematical Operations & ML")
 st.markdown("---")
@@ -74,7 +72,7 @@ with st.sidebar:
 # Show Settings page or selected tab
 if st.session_state.get('show_settings', False):
     from tabs import settings_tab
-    st.header("⚙️ Settings")
+    st.header("Settings")
     settings_tab.show()
 else:
     selected_tab = st.session_state.get('selected_tab')
